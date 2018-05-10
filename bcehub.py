@@ -27,10 +27,12 @@ def bash_cartesianprod(string):                                # main
         string = string.strip()
 
     if string.count('{') != string.count('}'):                 # check number of sets
-        print ("Invalid sets, can not return Cartesian product")
+        raise InvalidString
 
-    outside_char, inside_char = extract_char(string)           # helper function returns lists of characters within string
-    return cartesian_product(outside_char, inside_char)
+    else:
+
+        outside_char, inside_char = extract_char(string)       # helper function returns lists of characters within string
+        return cartesian_product(outside_char, inside_char)
 
 
 def split_passed_str(string):                                  # function breaks up string into characters, no commas or brackets
@@ -95,10 +97,13 @@ def cartesian_product(outside_char, inside_char):                  # cartesian_p
                     cartesian_prod_list.append(outside_char[0] + j + k)
     return cartesian_prod_list
 
+class InvalidString(Exception):
+    pass
 
-# run python bcehub.py "a{b,c}d{e,f,g}hi" in terminal
 if __name__ == "__main__":
     try:
         print (' '.join(bash_cartesianprod(sys.argv[1])))
+    except InvalidString:
+        print ("Invalid sets, can not return Cartesian product")
     except IndexError:
         print ("Enter valid string to get Cartesian product")
